@@ -22,7 +22,7 @@ mainClassName = "io.advantageous.qbit.example.EmployeeEventExampleUsingSystemEve
 
 
 dependencies {
-    compile group: 'io.advantageous.qbit', name: 'qbit-vertx', version: '0.7.2'
+    compile group: 'io.advantageous.qbit', name: 'qbit-vertx', version: '0.8.6'
 
 
     compile "org.slf4j:slf4j-api:[1.7,1.8)"

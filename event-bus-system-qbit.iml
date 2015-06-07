@@ -14,19 +14,20 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="Gradle: io.advantageous.qbit:qbit-vertx:0.7.2" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: io.advantageous.qbit:qbit-vertx:0.8.6" level="project" />
     <orderEntry type="library" exported="" name="Gradle: org.slf4j:slf4j-api:1.7.12" level="project" />
     <orderEntry type="library" exported="" name="Gradle: ch.qos.logback:logback-classic:1.1.2" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: io.advantageous.qbit:qbit-boon:0.8.6" level="project" />
     <orderEntry type="library" exported="" name="Gradle: io.vertx:vertx-core:2.1.1" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: io.advantageous.qbit:qbit-boon:0.7.2" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: io.advantageous.qbit:qbit-core:0.8.6" level="project" />
     <orderEntry type="library" exported="" name="Gradle: io.vertx:vertx-platform:2.1.1" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: io.advantageous.qbit:qbit-core:0.7.2" level="project" />
     <orderEntry type="library" exported="" name="Gradle: ch.qos.logback:logback-core:1.1.2" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: io.advantageous.boon:boon-json:0.5.5" level="project" />
     <orderEntry type="library" exported="" name="Gradle: com.fasterxml.jackson.core:jackson-databind:2.2.2" level="project" />
     <orderEntry type="library" exported="" name="Gradle: com.fasterxml.jackson.core:jackson-core:2.2.2" level="project" />
     <orderEntry type="library" exported="" name="Gradle: log4j:log4j:1.2.16" level="project" />
     <orderEntry type="library" exported="" name="Gradle: io.netty:netty-all:4.0.20.Final" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: io.advantageous.qbit:boon:0.7.2" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: io.advantageous.boon:boon-reflekt:0.5.5" level="project" />
     <orderEntry type="library" exported="" name="Gradle: com.fasterxml.jackson.core:jackson-annotations:2.2.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: junit:junit:4.10" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: org.hamcrest:hamcrest-core:1.1" level="project" />
