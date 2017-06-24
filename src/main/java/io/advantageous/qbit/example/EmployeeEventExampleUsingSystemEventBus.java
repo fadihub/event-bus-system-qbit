@@ -28,15 +28,20 @@ import static io.advantageous.qbit.service.ServiceContext.serviceContext;
 import static io.advantageous.qbit.service.ServiceProxyUtils.flushServiceProxy;
 
 /**
- * Created by rhightower on 2/4/15.
+ * Sample implementation of inproc events-driven services using QBit.
+ * @author rhightower
+ * @implNote Created on 2/4/15.
  */
 public class EmployeeEventExampleUsingSystemEventBus {
 	
-	public static final String NEW_HIRE_CHANNEL = "com.mycompnay.employee.new";
+	public static final String NEW_HIRE_CHANNEL = "com.company.employee.new";
 	
-	public static final String PAYROLL_ADJUSTMENT_CHANNEL = "com.mycompnay.employee.payroll";
+	public static final String PAYROLL_ADJUSTMENT_CHANNEL = "com.company.employee.payroll";
+	
 	
 	public static void main(String... args) {
+		
+		System.out.println(); // cosmetics only
 		
 		// instantiating service controllers
 		
@@ -47,21 +52,21 @@ public class EmployeeEventExampleUsingSystemEventBus {
 		
 		// creating service instances
 		
-		ServiceQueue employeeHiringServiceQueue = serviceBuilder().setServiceObject(hiringService)
+		ServiceQueue hiringServiceQueue = serviceBuilder().setServiceObject(hiringService)
 				.setInvokeDynamic(false).build().startServiceQueue();
 		
 		ServiceQueue payrollServiceQueue = serviceBuilder().setServiceObject(payrollService)
 				.setInvokeDynamic(false).build().startServiceQueue();
 		
-		ServiceQueue employeeBenefitsServiceQueue = serviceBuilder().setServiceObject(benefitsService)
+		ServiceQueue benefitsServiceQueue = serviceBuilder().setServiceObject(benefitsService)
 				.setInvokeDynamic(false).build().startServiceQueue();
 		
 		ServiceQueue volunteeringServiceQueue = serviceBuilder().setServiceObject(volunteerService)
 				.setInvokeDynamic(false).build().startServiceQueue();
 		
-		// getting the local client of hiringService
+		// getting the local client of the hiring service
 		
-		EmployeeHiringServiceClient hiringServiceClient = employeeHiringServiceQueue.createProxy(EmployeeHiringServiceClient.class);
+		EmployeeHiringServiceClient hiringServiceClient = hiringServiceQueue.createProxy(EmployeeHiringServiceClient.class);
 		
 		// hiring an employee
 		
@@ -74,34 +79,34 @@ public class EmployeeEventExampleUsingSystemEventBus {
 	}
 	
 	interface EmployeeHiringServiceClient {
+		
 		void hireEmployee(final Employee employee);
 		
 	}
 	
 	public static class Employee {
-		final String firstName;
-		final int employeeId;
 		
-		public Employee(String firstName, int employeeId) {
-			this.firstName = firstName;
-			this.employeeId = employeeId;
+		final String name;
+		final int id;
+		
+		public Employee(String name, int id) {
+			this.name = name;
+			this.id = id;
 		}
 		
-		public String getFirstName() {
-			return firstName;
+		public String name() {
+			return name;
 		}
 		
-		public int getEmployeeId() {
-			return employeeId;
+		public int id() {
+			return id;
 		}
 		
 		@Override
 		public String toString() {
-			return "Employee{" +
-					"firstName='" + firstName + '\'' +
-					", employeeId=" + employeeId +
-					'}';
+			return String.format("Employee{ name='%s', id=%d }", name , id);
 		}
+		
 	}
 	
 	public static class EmployeeHiringService {
@@ -110,16 +115,14 @@ public class EmployeeEventExampleUsingSystemEventBus {
 		public void hireEmployee(final Employee employee) {
 			
 			int salary = 100;
-			System.out.printf("Hired employee %s\n", employee);
+			System.out.printf("[%s - %s] EmployeeHiringService > Hired '%s'. Details: %s\n",
+					Thread.currentThread().getName(), Thread.currentThread().getId(),
+					employee.name(), employee);
 			
-			//Does stuff to hire employee
-			
-			//Sends events
+			// publish the needed events
 			final EventManager eventManager = serviceContext().eventManager();
 			eventManager.send(NEW_HIRE_CHANNEL, employee);
 			eventManager.sendArray(PAYROLL_ADJUSTMENT_CHANNEL, employee, salary);
-			
-			
 		}
 		
 	}
@@ -129,9 +132,9 @@ public class EmployeeEventExampleUsingSystemEventBus {
 		@OnEvent(NEW_HIRE_CHANNEL)
 		public void enroll(final Employee employee) {
 			
-			System.out.printf("Employee enrolled into benefits system employee %s %d\n",
-					employee.getFirstName(), employee.getEmployeeId());
-			
+			System.out.printf("[%s - %s] BenefitsService > Enrolled '%s'.\n",
+					Thread.currentThread().getName(), Thread.currentThread().getId(),
+					employee.name());
 		}
 		
 	}
@@ -141,9 +144,9 @@ public class EmployeeEventExampleUsingSystemEventBus {
 		@OnEvent(NEW_HIRE_CHANNEL)
 		public void invite(final Employee employee) {
 			
-			System.out.printf("Employee will be invited to the community outreach program %s %d\n",
-					employee.getFirstName(), employee.getEmployeeId());
-			
+			System.out.printf("[%s - %s] VolunteerService > Invited '%s' to the community outreach program.\n",
+					Thread.currentThread().getName(), Thread.currentThread().getId(),
+					employee.name());
 		}
 		
 	}
@@ -153,10 +156,11 @@ public class EmployeeEventExampleUsingSystemEventBus {
 		@OnEvent(PAYROLL_ADJUSTMENT_CHANNEL)
 		public void addEmployeeToPayroll(final Employee employee, int salary) {
 			
-			System.out.printf("Employee added to payroll  %s %d %d\n",
-					employee.getFirstName(), employee.getEmployeeId(), salary);
-			
+			System.out.printf("[%s - %s] PayrollService > Added '%s' with salary %d.\n",
+					Thread.currentThread().getName(), Thread.currentThread().getId(),
+					employee.name(), salary);
 		}
 		
 	}
+	
 }
