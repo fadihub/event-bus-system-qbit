@@ -10,7 +10,7 @@
 
 # Gradle
 /build
-.gradle
+/.gradle
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/
