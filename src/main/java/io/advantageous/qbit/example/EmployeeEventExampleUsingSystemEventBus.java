@@ -22,6 +22,8 @@ import io.advantageous.qbit.annotation.OnEvent;
 import io.advantageous.qbit.events.EventManager;
 import io.advantageous.qbit.service.ServiceQueue;
 import io.advantageous.boon.core.Sys;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static io.advantageous.qbit.service.ServiceBuilder.serviceBuilder;
 import static io.advantageous.qbit.service.ServiceContext.serviceContext;
@@ -38,10 +40,8 @@ public class EmployeeEventExampleUsingSystemEventBus {
 	
 	public static final String PAYROLL_ADJUSTMENT_CHANNEL = "com.company.employee.payroll";
 	
-	
+	/** Startup */
 	public static void main(String... args) {
-		
-		System.out.println(); // cosmetics only
 		
 		// instantiating service controllers
 		
@@ -111,11 +111,13 @@ public class EmployeeEventExampleUsingSystemEventBus {
 	
 	public static class EmployeeHiringService {
 		
+		private Logger logger = LoggerFactory.getLogger(EmployeeHiringService.class);
+		
 		
 		public void hireEmployee(final Employee employee) {
 			
 			int salary = 100;
-			System.out.printf("[%s - %s] EmployeeHiringService > Hired '%s'. Details: %s\n",
+			logger.info("Hired '{}'. Details: {}\n",
 					Thread.currentThread().getName(), Thread.currentThread().getId(),
 					employee.name(), employee);
 			
