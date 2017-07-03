@@ -117,14 +117,14 @@ public class EmployeeEventExampleUsingSystemEventBus {
 		public void hireEmployee(final Employee employee) {
 			
 			int salary = 100;
-			logger.info("Hired '{}'. Details: {}\n",
+			System.out.printf("[%s - %s] EmployeeHiringService > Hired '%s'. Details: %s\n",
 					Thread.currentThread().getName(), Thread.currentThread().getId(),
 					employee.name(), employee);
 			
 			// publish the needed events
 			final EventManager eventManager = serviceContext().eventManager();
 			eventManager.send(NEW_HIRE_CHANNEL, employee);
-			eventManager.sendArray(PAYROLL_ADJUSTMENT_CHANNEL, employee, salary);
+			eventManager.sendArguments(PAYROLL_ADJUSTMENT_CHANNEL, employee, salary);
 		}
 		
 	}
